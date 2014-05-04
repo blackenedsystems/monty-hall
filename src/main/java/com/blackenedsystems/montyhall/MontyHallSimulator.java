@@ -15,19 +15,42 @@ package com.blackenedsystems.montyhall;
  */
 public class MontyHallSimulator {
 
+    private static final int DEFAULT_NUMBER_OF_ITERATIONS = 10000;
+
+    private SimulationStats statsForChanging;
+    private SimulationStats statsForNotChanging;
+
     public static void main(String[] args) {
+        int numberOfIterations = DEFAULT_NUMBER_OF_ITERATIONS;
+        if (args.length == 1) {
+            try {
+                numberOfIterations = Integer.parseInt(args[0]);
+            } catch (NumberFormatException nfe) {
+                System.out.println("First argument must be an integer.");
+            }
+        }
+
         MontyHallSimulator mhs = new MontyHallSimulator();
+        mhs.runSimulation(numberOfIterations);
+    }
 
-        SimulationStats statsForChanging = mhs.simulate(10000, true);
-        System.out.println("Player made change   : " + statsForChanging.toString());
+    /**
+     * Run a simulation of the Monty Hall Problem, to compare the two use cases, when the player swaps
+     * boxes after the host reveals an empty box, and when he keeps his original selection.
+     *
+     * @param numberOfIterations number of times to run each use case.
+     */
+    public void runSimulation(final int numberOfIterations) {
+        statsForChanging = simulate(numberOfIterations, true);
+        System.out.println("\n\nPlayer made change   : " + statsForChanging.toString());
 
-        SimulationStats statsForNotChanging = mhs.simulate(10000, false);
+        statsForNotChanging = simulate(numberOfIterations, false);
         System.out.println("Player did not change: " + statsForNotChanging.toString());
 
         if (statsForChanging.getWinPercentage().compareTo(statsForNotChanging.getWinPercentage()) > 0) {
-            System.out.println("\nPlayers are best to change their initial selection.");
+            System.out.println("\nBest option for player: swap when given the opportunity.\n");
         } else {
-            System.out.println("\nPlayers are best to stick with their initial selection.");
+            System.out.println("\nBest option for player: do not swap when given the opportunity.\n");
         }
     }
 
@@ -35,7 +58,7 @@ public class MontyHallSimulator {
      * Run a simulation of a number of games where the player either does or does not change his selection after the host
      * reveals an empty box.
      *
-     * @param numberOfGames number of games to be executed
+     * @param numberOfGames    number of games to be executed
      * @param playerChangesBox should the player change his selection after the host opens an empty box?
      * @return statistics for the simulation
      */
@@ -76,5 +99,13 @@ public class MontyHallSimulator {
         }
 
         return player.isWinner();
+    }
+
+    public SimulationStats getStatsForChanging() {
+        return statsForChanging;
+    }
+
+    public SimulationStats getStatsForNotChanging() {
+        return statsForNotChanging;
     }
 }

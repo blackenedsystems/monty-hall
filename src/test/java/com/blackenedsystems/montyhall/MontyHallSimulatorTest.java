@@ -94,4 +94,14 @@ public class MontyHallSimulatorTest {
         assertEquals("Wins + Losses = " + NUMBER_OF_ITERATIONS, NUMBER_OF_ITERATIONS, stats.getWins() + stats.getLosses());
         assertTrue("Player wins less than 50%", stats.getWinPercentage().compareTo(new BigDecimal("50")) < 0);
     }
+
+    @Test
+    public void runSimulation() {
+        MontyHallSimulator mhs = new MontyHallSimulator();
+        mhs.runSimulation(500);
+        assertNotNull("Changing Stats", mhs.getStatsForChanging());
+        assertNotNull("Not Changing Stats", mhs.getStatsForNotChanging());
+        assertTrue("Player wins more than 50% when swapping", mhs.getStatsForChanging().getWinPercentage().compareTo(new BigDecimal("50")) > 0);
+        assertTrue("Player wins less than 50% when sticking", mhs.getStatsForNotChanging().getWinPercentage().compareTo(new BigDecimal("50")) < 0);
+    }
 }
