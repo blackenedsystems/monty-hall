@@ -41,11 +41,11 @@ public class MontyHallSimulator {
      * @param numberOfIterations number of times to run each use case.
      */
     public void runSimulation(final int numberOfIterations) {
-        statsForChanging = simulate(numberOfIterations, true);
-        System.out.println("\n\nPlayer made change   : " + statsForChanging.toString());
-
         statsForNotChanging = simulate(numberOfIterations, false);
-        System.out.println("Player did not change: " + statsForNotChanging.toString());
+        System.out.println("\n\nPlayer stuck with original choice: " + statsForNotChanging.toString());
+
+        statsForChanging = simulate(numberOfIterations, true);
+        System.out.println("Player swapped boxes             : " + statsForChanging.toString());
 
         if (statsForChanging.getWinPercentage().compareTo(statsForNotChanging.getWinPercentage()) > 0) {
             System.out.println("\nBest option for player: swap when given the opportunity.\n");
