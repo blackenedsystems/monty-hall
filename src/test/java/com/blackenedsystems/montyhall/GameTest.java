@@ -19,69 +19,34 @@ public class GameTest {
     }
 
     @Test
-    public void gameInitialisedOk_asWinner() {
-        Game game = new Game(true);
-        assertNotNull("Game", game);
-        assertEquals("Number of Boxes", 3, game.numberOfBoxes());
-        assertTrue("One and only one winner", game.hasOneWinner());
-        assertTrue("Player Wins", game.doesPlayerWin());
-    }
-
-    @Test
-    public void playerMakesSelection() {
+    public void onlyOneWinner() {
         Game game = new Game();
-        assertFalse("Player not made selection", game.hasPlayerMadeSelection());
+        assertEquals("Initial number of boxes", 3, game.numberOfBoxes());
 
-        game.makePlayerSelection();
-        assertTrue("Player made selection", game.hasPlayerMadeSelection());
-    }
+        Player player = new Player();
+        player.makeSelection(game);
+        assertEquals("Number of boxes after player selection", 2, game.numberOfBoxes());
 
-    @Test
-    public void hostOffersAnotherBox() {
-        Game game = new Game();
-        game.makePlayerSelection();
-        game.makeHostSelection();
-        assertTrue("Host selection different from player's", game.hostSelectionDiffersFromPlayers());
-    }
+        Host host = new Host();
+        host.openBox(game);
+        assertEquals("Number of boxes after host selection", 1, game.numberOfBoxes());
 
-    @Test
-    public void playerSwitchesBoxes() {
-        Game game = new Game();
-        game.makePlayerSelection();
-        game.makeHostSelection();
-        assertTrue("Host selection different from player's", game.hostSelectionDiffersFromPlayers());
+        assertTrue("Three different boxes",
+                !player.getPrizeBox().equals(host.getOpenedBox()) &&
+                        !player.getPrizeBox().equals(game.getLastBox()) &&
+                        !host.getOpenedBox().equals(game.getLastBox())
+        );
 
-        game.changePlayerSelection();
-        assertTrue("Host selection different from player's", game.hostSelectionDiffersFromPlayers());
-    }
-
-    @Test
-    public void playerWins_initialWinNoChange() {
-        Game game = new Game(true);
-        game.makeHostSelection();
-        assertTrue("Player Wins", game.doesPlayerWin());
-    }
-
-    @Test
-    public void playerLoses_initialWinChangesBox() {
-        Game game = new Game(true);
-        game.makeHostSelection();
-        game.changePlayerSelection();
-        assertFalse("Player Loses", game.doesPlayerWin());
-    }
-
-    @Test
-    public void playerWins_initialLoseChangesBox() {
-        Game game = new Game(false);
-        game.makeHostSelection();
-        game.changePlayerSelection();
-        assertTrue("Player Wins", game.doesPlayerWin());
-    }
-
-    @Test
-    public void playerLoses_initialLoseNoChange() {
-        Game game = new Game(false);
-        game.makeHostSelection();
-        assertFalse("Player Loses", game.doesPlayerWin());
+        int numberOfWinners = 0;
+        if (player.getPrizeBox().isWinner()) {
+            numberOfWinners++;
+        }
+        if (host.getOpenedBox().isWinner()) {
+            numberOfWinners++;
+        }
+        if (game.getLastBox().isWinner()) {
+            numberOfWinners++;
+        }
+        assertEquals("Number of winning boxes", 1, numberOfWinners);
     }
 }

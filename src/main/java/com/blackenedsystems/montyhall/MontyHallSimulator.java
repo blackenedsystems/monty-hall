@@ -65,16 +65,16 @@ public class MontyHallSimulator {
      * @return whether or not the player wins.
      */
     boolean executeGame(final Game game, final boolean playerChangesBox) {
-        if (!game.hasPlayerMadeSelection()) {
-            game.makePlayerSelection();
-        }
+        Player player = new Player();
+        player.makeSelection(game);
 
-        game.makeHostSelection();
+        Host host = new Host();
+        host.openBox(game);
 
         if (playerChangesBox) {
-            game.changePlayerSelection();
+            player.swapBoxes(game);
         }
 
-        return game.doesPlayerWin();
+        return player.isWinner();
     }
 }

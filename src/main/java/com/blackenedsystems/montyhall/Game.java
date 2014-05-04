@@ -5,40 +5,31 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * Represents a single game of the Monty Hall Problem.  Manages the list of (three) prize boxes.
+ *
  * @author Alan Tibbetts
  * @since 3/5/14 12:39
  */
 public class Game {
 
-    private final int WINNING_BOX = 0;
-    private final int DEFAULT_LOSING_BOX = 1;
-
-    private final List<PrizeBox> prizePrizeBoxes = new ArrayList<PrizeBox>(3);
-
-    private int playerSelection = -1;
-    private int hostSelection = -1;
+    private List<PrizeBox> prizeBoxes;
 
     public Game() {
         initialisePrizeBoxes();
     }
 
-    public Game(final boolean playerSelectedWinner) {
-        initialisePrizeBoxes();
-        playerSelection = playerSelectedWinner ? WINNING_BOX : DEFAULT_LOSING_BOX;
-    }
-
     private void initialisePrizeBoxes() {
-        // For the purposes of this simulator, the winning box is always first in the list.
-        prizePrizeBoxes.add(new PrizeBox(PrizeBox.WINNER));
-        prizePrizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
-        prizePrizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
+        prizeBoxes = new ArrayList<PrizeBox>(3);
+        prizeBoxes.add(new PrizeBox(PrizeBox.WINNER));
+        prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
+        prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
     }
 
     /**
      * @return the number of prize boxes in the game
      */
     final int numberOfBoxes() {
-        return prizePrizeBoxes.size();
+        return prizeBoxes.size();
     }
 
     /**
@@ -46,7 +37,7 @@ public class Game {
      */
     final boolean hasOneWinner() {
         int winners = 0;
-        for (PrizeBox prizePrizeBox : prizePrizeBoxes) {
+        for (PrizeBox prizePrizeBox : prizeBoxes) {
             if (prizePrizeBox.isWinner()) {
                 winners++;
             }
@@ -55,41 +46,62 @@ public class Game {
     }
 
     /**
-     * Player selects one of the three boxes (at random)
+     * Player selects one of the three boxes (at random).
      */
-    public void makePlayerSelection() {
-        Random random = new Random();
-        playerSelection = random.nextInt(3);
-    }
-
-    boolean hasPlayerMadeSelection() {
-        return playerSelection != -1;
-    }
-
-    public void makeHostSelection() {
-        if (playerSelection == WINNING_BOX) {
-            Random random = new Random();
-            hostSelection = random.nextInt(2) + 1;
-        } else {
-            hostSelection = 3 - playerSelection;
+    public PrizeBox makePlayerSelection() {
+        if (prizeBoxes.size() != 3) {
+            throw new RuntimeException("Expected 3 prizes boxes from which the player could make a selection, actually " + prizeBoxes.size());
         }
+
+        Random random = new Random();
+        int selection = random.nextInt(3);
+        PrizeBox prizeBox = prizeBoxes.get(selection);
+        prizeBoxes.remove(selection);
+        return prizeBox;
     }
 
-    boolean hostSelectionDiffersFromPlayers() {
-        return playerSelection != hostSelection;
+
+    /**
+     * @return there should be two remaining boxes, one a winner, one a loser, the host will select the loser.
+     */
+    public PrizeBox makeHostSelection() {
+        if (prizeBoxes.size() != 2) {
+            throw new RuntimeException("Player has not yet made a selection!");
+        }
+
+        if (prizeBoxes.get(0).isWinner() && prizeBoxes.get(1).isWinner()) {
+            throw new RuntimeException("Both remaining boxes are winners!");
+        }
+
+        int selection = (prizeBoxes.get(0).isWinner()) ? 1 : 0;
+
+        PrizeBox prizeBox = prizeBoxes.get(selection);
+        prizeBoxes.remove(selection);
+        return prizeBox;
     }
 
     /**
-     * Player has decided to change his selection.
+     * @param prizeBox player's initial selection, this will be returned to the list of boxes.
+     * @return the box that remained after the player's initial selection and the host opened a losing box.
      */
-    public void changePlayerSelection() {
-        playerSelection = 3 - (playerSelection + hostSelection);
+    public PrizeBox swapBoxes(final PrizeBox prizeBox) {
+        if (prizeBoxes.size() > 1) {
+            throw new RuntimeException("Should only be one box remaining, but there's actually " + prizeBoxes.size());
+        }
+
+        prizeBoxes.add(prizeBox);
+        PrizeBox boxToReturn = prizeBoxes.get(0);
+        prizeBoxes.remove(0);
+        return boxToReturn;
     }
 
     /**
-     * @return did the player choose the winning box?
+     * @return the last remaining box, after the player has made a selection and the host has opened a losing box.
      */
-    public boolean doesPlayerWin() {
-        return playerSelection == 0;
+    PrizeBox getLastBox() {
+        if (prizeBoxes.size() > 1) {
+            throw new RuntimeException("There should be only one remaining box.");
+        }
+        return prizeBoxes.get(0);
     }
 }
