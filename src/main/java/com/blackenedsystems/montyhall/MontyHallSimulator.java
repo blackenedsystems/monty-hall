@@ -17,8 +17,8 @@ public class MontyHallSimulator {
 
     private static final int DEFAULT_NUMBER_OF_ITERATIONS = 10000;
 
-    private SimulationStats statsForChanging;
-    private SimulationStats statsForNotChanging;
+    private SimulationStats playerSwapsBoxStats;
+    private SimulationStats playerKeepsOriginalBoxStats;
 
     public static void main(String[] args) {
         int numberOfIterations = DEFAULT_NUMBER_OF_ITERATIONS;
@@ -41,13 +41,13 @@ public class MontyHallSimulator {
      * @param numberOfIterations number of times to run each use case.
      */
     public void runSimulation(final int numberOfIterations) {
-        statsForNotChanging = simulate(numberOfIterations, false);
-        System.out.println("\n\nPlayer stuck with original choice: " + statsForNotChanging.toString());
+        playerKeepsOriginalBoxStats = simulate(numberOfIterations, false);
+        System.out.println("\n\nPlayer stuck with original choice: " + playerKeepsOriginalBoxStats.toString());
 
-        statsForChanging = simulate(numberOfIterations, true);
-        System.out.println("Player swapped boxes             : " + statsForChanging.toString());
+        playerSwapsBoxStats = simulate(numberOfIterations, true);
+        System.out.println("Player swapped boxes             : " + playerSwapsBoxStats.toString());
 
-        if (statsForChanging.getWinPercentage().compareTo(statsForNotChanging.getWinPercentage()) > 0) {
+        if (playerSwapsBoxStats.getWinPercentage().compareTo(playerKeepsOriginalBoxStats.getWinPercentage()) > 0) {
             System.out.println("\nBest option for player: swap when given the opportunity.\n");
         } else {
             System.out.println("\nBest option for player: do not swap when given the opportunity.\n");
@@ -101,11 +101,11 @@ public class MontyHallSimulator {
         return player.isWinner();
     }
 
-    public SimulationStats getStatsForChanging() {
-        return statsForChanging;
+    public SimulationStats getPlayerSwapsBoxStats() {
+        return playerSwapsBoxStats;
     }
 
-    public SimulationStats getStatsForNotChanging() {
-        return statsForNotChanging;
+    public SimulationStats getPlayerKeepsOriginalBoxStats() {
+        return playerKeepsOriginalBoxStats;
     }
 }

@@ -99,9 +99,9 @@ public class MontyHallSimulatorTest {
     public void runSimulation() {
         MontyHallSimulator mhs = new MontyHallSimulator();
         mhs.runSimulation(500);
-        assertNotNull("Changing Stats", mhs.getStatsForChanging());
-        assertNotNull("Not Changing Stats", mhs.getStatsForNotChanging());
-        assertTrue("Player wins more than 50% when swapping", mhs.getStatsForChanging().getWinPercentage().compareTo(new BigDecimal("50")) > 0);
-        assertTrue("Player wins less than 50% when sticking", mhs.getStatsForNotChanging().getWinPercentage().compareTo(new BigDecimal("50")) < 0);
+        assertNotNull("Changing Stats", mhs.getPlayerSwapsBoxStats());
+        assertNotNull("Not Changing Stats", mhs.getPlayerKeepsOriginalBoxStats());
+        assertTrue("Player wins more than 50% when swapping", mhs.getPlayerSwapsBoxStats().getWinPercentage().compareTo(new BigDecimal("50")) > 0);
+        assertTrue("Player wins less than 50% when sticking", mhs.getPlayerKeepsOriginalBoxStats().getWinPercentage().compareTo(new BigDecimal("50")) < 0);
     }
 }

@@ -98,7 +98,7 @@ public class Game {
     /**
      * @return the last remaining box, after the player has made a selection and the host has opened a losing box.
      */
-    PrizeBox getLastBox() {
+    PrizeBox getUnselectedBox() {
         if (prizeBoxes.size() > 1) {
             throw new IllegalStateException("There should be only one remaining box.");
         }
