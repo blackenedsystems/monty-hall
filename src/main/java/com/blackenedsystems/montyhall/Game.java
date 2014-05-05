@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.google.common.base.Preconditions.checkState;
+
 /**
  * Represents a single game of the Monty Hall Problem.  Manages the list of (three) prize boxes.
  *
@@ -13,6 +15,7 @@ import java.util.Random;
 public class Game {
 
     private List<PrizeBox> prizeBoxes;
+    private Random random = new Random();
 
     public Game() {
         initialisePrizeBoxes();
@@ -40,11 +43,9 @@ public class Game {
     }
 
     public PrizeBox makePlayerSelection() {
-        if (prizeBoxes.size() != 3) {
-            throw new IllegalStateException("Expected 3 prizes boxes from which the player could make a selection, actually " + prizeBoxes.size());
-        }
+        checkState(prizeBoxes.size() == 3,
+                "Expected 3 prizes boxes from which the player could make a selection, actually %s", prizeBoxes.size());
 
-        Random random = new Random();
         int selection = random.nextInt(3);
         PrizeBox prizeBox = prizeBoxes.get(selection);
         prizeBoxes.remove(selection);
@@ -52,13 +53,8 @@ public class Game {
     }
 
     public PrizeBox makeHostSelection() {
-        if (prizeBoxes.size() != 2) {
-            throw new IllegalStateException("Player has not yet made a selection!");
-        }
-
-        if (prizeBoxes.get(0).isWinner() && prizeBoxes.get(1).isWinner()) {
-            throw new IllegalStateException("Both remaining boxes are winners!");
-        }
+        checkState(prizeBoxes.size() == 2, "Player has not yet made a selection!");
+        checkState(!prizeBoxes.get(0).isWinner() || !prizeBoxes.get(1).isWinner(), "Both remaining boxes are winners!");
 
         int selection = (prizeBoxes.get(0).isWinner()) ? 1 : 0;
 
@@ -68,9 +64,7 @@ public class Game {
     }
 
     public PrizeBox swapBoxes(final PrizeBox prizeBox) {
-        if (prizeBoxes.size() > 1) {
-            throw new IllegalStateException("Should only be one box remaining, but there's actually " + prizeBoxes.size());
-        }
+        checkState(prizeBoxes.size() == 1, "Should only be one box remaining, but there's actually " + prizeBoxes.size());
 
         prizeBoxes.add(prizeBox);
         PrizeBox boxToReturn = prizeBoxes.get(0);
@@ -79,9 +73,8 @@ public class Game {
     }
 
     PrizeBox getUnselectedBox() {
-        if (prizeBoxes.size() > 1) {
-            throw new IllegalStateException("There should be only one remaining box.");
-        }
+        checkState(prizeBoxes.size() == 1, "There should be only one remaining box.");
+
         return prizeBoxes.get(0);
     }
 }

@@ -1,5 +1,7 @@
 package com.blackenedsystems.montyhall;
 
+import static com.google.common.base.Preconditions.checkState;
+
 /**
  * Represents a player in the Monty Hall Problem, ie the person trying to select a winning prize box.
  *
@@ -11,9 +13,8 @@ public class Player {
     private PrizeBox prizeBox;
 
     public void makeSelection(final Game game) {
-        if (prizeBox != null) {
-            throw new IllegalStateException("Player has already selected a prize box");
-        }
+        checkState(this.prizeBox == null, "Player has already selected a prize box");
+
         this.prizeBox = game.makePlayerSelection();
     }
 
