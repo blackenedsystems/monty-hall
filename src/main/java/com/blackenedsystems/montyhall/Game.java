@@ -1,6 +1,9 @@
 package com.blackenedsystems.montyhall;
 
+import com.blackenedsystems.montyhall.PrizeBox;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -18,14 +21,7 @@ public class Game {
     private Random random = new Random();
 
     public Game() {
-        initialisePrizeBoxes();
-    }
-
-    private void initialisePrizeBoxes() {
-        prizeBoxes = new ArrayList<>(3);
-        prizeBoxes.add(new PrizeBox(PrizeBox.WINNER));
-        prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
-        prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
+        prizeBoxes = new ArrayList<>(Arrays.asList(PrizeBox.WINNER, PrizeBox.LOSER, PrizeBox.LOSER));
     }
 
     final int numberOfBoxes() {
@@ -35,7 +31,7 @@ public class Game {
     final boolean hasOneWinner() {
         int winners = 0;
         for (PrizeBox prizePrizeBox : prizeBoxes) {
-            if (prizePrizeBox.isWinner()) {
+            if (prizePrizeBox == PrizeBox.WINNER) {
                 winners++;
             }
         }
@@ -54,9 +50,9 @@ public class Game {
 
     public PrizeBox makeHostSelection() {
         checkState(prizeBoxes.size() == 2, "Player has not yet made a selection!");
-        checkState(!prizeBoxes.get(0).isWinner() || !prizeBoxes.get(1).isWinner(), "Both remaining boxes are winners!");
+        checkState(prizeBoxes.get(0) == PrizeBox.LOSER || prizeBoxes.get(1) == PrizeBox.LOSER, "Both remaining boxes are winners!");
 
-        int selection = (prizeBoxes.get(0).isWinner()) ? 1 : 0;
+        int selection = (prizeBoxes.get(0) == PrizeBox.WINNER) ? 1 : 0;
 
         PrizeBox prizeBox = prizeBoxes.get(selection);
         prizeBoxes.remove(selection);

@@ -22,7 +22,7 @@ public class HostTest {
         Host host = new Host();
         host.openBox(game);
         assertNotNull("Host's opened box", host.getOpenedBox());
-        assertFalse("Host opened losing box", host.getOpenedBox().isWinner());
+        assertFalse("Host opened losing box", host.getOpenedBox() == PrizeBox.WINNER);
         assertEquals("Remaining boxes", 1, game.numberOfBoxes());
 
         assertFalse("Player's and Host's boxes are different", player.getPrizeBox().equals(host.getOpenedBox()));

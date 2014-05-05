@@ -21,11 +21,8 @@ public class MontyHallSimulatorTest {
         MontyHallSimulator mhs = new MontyHallSimulator();
         Game mockGame = mock(Game.class);
 
-        PrizeBox winningBox = new PrizeBox(PrizeBox.WINNER);
-        PrizeBox losingBox = new PrizeBox(PrizeBox.LOSER);
-
-        when(mockGame.makePlayerSelection()).thenReturn(winningBox);
-        when(mockGame.makeHostSelection()).thenReturn(losingBox);
+        when(mockGame.makePlayerSelection()).thenReturn(PrizeBox.WINNER);
+        when(mockGame.makeHostSelection()).thenReturn(PrizeBox.LOSER);
 
         boolean doesPlayerWin = mhs.executeGame(mockGame, false);
         assertTrue("Player Wins", doesPlayerWin);
@@ -36,12 +33,9 @@ public class MontyHallSimulatorTest {
         MontyHallSimulator mhs = new MontyHallSimulator();
         Game mockGame = mock(Game.class);
 
-        PrizeBox winningBox = new PrizeBox(PrizeBox.WINNER);
-        PrizeBox losingBox = new PrizeBox(PrizeBox.LOSER);
-
-        when(mockGame.makePlayerSelection()).thenReturn(losingBox);
-        when(mockGame.makeHostSelection()).thenReturn(losingBox);
-        when(mockGame.swapBoxes(losingBox)).thenReturn(winningBox);
+        when(mockGame.makePlayerSelection()).thenReturn(PrizeBox.LOSER);
+        when(mockGame.makeHostSelection()).thenReturn(PrizeBox.LOSER);
+        when(mockGame.swapBoxes(PrizeBox.LOSER)).thenReturn(PrizeBox.WINNER);
 
         boolean doesPlayerWin = mhs.executeGame(mockGame, true);
         assertTrue("Player Wins", doesPlayerWin);
@@ -52,10 +46,8 @@ public class MontyHallSimulatorTest {
         MontyHallSimulator mhs = new MontyHallSimulator();
         Game mockGame = mock(Game.class);
 
-        PrizeBox losingBox = new PrizeBox(PrizeBox.LOSER);
-
-        when(mockGame.makePlayerSelection()).thenReturn(losingBox);
-        when(mockGame.makeHostSelection()).thenReturn(losingBox);
+        when(mockGame.makePlayerSelection()).thenReturn(PrizeBox.LOSER);
+        when(mockGame.makeHostSelection()).thenReturn(PrizeBox.LOSER);
 
         boolean doesPlayerWin = mhs.executeGame(mockGame, false);
         assertFalse("Player Loses", doesPlayerWin);
@@ -66,12 +58,9 @@ public class MontyHallSimulatorTest {
         MontyHallSimulator mhs = new MontyHallSimulator();
         Game mockGame = mock(Game.class);
 
-        PrizeBox winningBox = new PrizeBox(PrizeBox.WINNER);
-        PrizeBox losingBox = new PrizeBox(PrizeBox.LOSER);
-
-        when(mockGame.makePlayerSelection()).thenReturn(winningBox);
-        when(mockGame.makeHostSelection()).thenReturn(losingBox);
-        when(mockGame.swapBoxes(winningBox)).thenReturn(losingBox);
+        when(mockGame.makePlayerSelection()).thenReturn(PrizeBox.WINNER);
+        when(mockGame.makeHostSelection()).thenReturn(PrizeBox.LOSER);
+        when(mockGame.swapBoxes(PrizeBox.WINNER)).thenReturn(PrizeBox.LOSER);
 
         boolean doesPlayerWin = mhs.executeGame(mockGame, true);
         assertFalse("Player Loses", doesPlayerWin);

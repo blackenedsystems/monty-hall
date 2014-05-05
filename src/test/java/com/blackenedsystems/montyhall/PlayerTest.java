@@ -18,10 +18,10 @@ public class PlayerTest {
         Player player = new Player();
         player.makeSelection(game);
         assertNotNull("Player has selected box", player.getPrizeBox());
-        assertEquals("Two boxes remainging", 2, game.numberOfBoxes());
+        assertEquals("Two boxes remaining", 2, game.numberOfBoxes());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void selectBox_doubleSelection() {
         Game game = new Game();
         Player player = new Player();

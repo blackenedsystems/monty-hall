@@ -31,20 +31,14 @@ public class GameTest {
         host.openBox(game);
         assertEquals("Number of boxes after host selection", 1, game.numberOfBoxes());
 
-        assertTrue("Three different boxes",
-                !player.getPrizeBox().equals(host.getOpenedBox()) &&
-                        !player.getPrizeBox().equals(game.getUnselectedBox()) &&
-                        !host.getOpenedBox().equals(game.getUnselectedBox())
-        );
-
         int numberOfWinners = 0;
-        if (player.getPrizeBox().isWinner()) {
+        if (player.getPrizeBox() == PrizeBox.WINNER) {
             numberOfWinners++;
         }
-        if (host.getOpenedBox().isWinner()) {
+        if (host.getOpenedBox() == PrizeBox.WINNER) {
             numberOfWinners++;
         }
-        if (game.getUnselectedBox().isWinner()) {
+        if (game.getUnselectedBox() == PrizeBox.WINNER) {
             numberOfWinners++;
         }
         assertEquals("Number of winning boxes", 1, numberOfWinners);

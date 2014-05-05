@@ -1,5 +1,7 @@
 package com.blackenedsystems.montyhall;
 
+import com.blackenedsystems.montyhall.PrizeBox;
+
 import static com.google.common.base.Preconditions.checkState;
 
 /**
@@ -23,7 +25,7 @@ public class Player {
     }
 
     public boolean isWinner() {
-        return prizeBox.isWinner();
+        return prizeBox == PrizeBox.WINNER;
     }
 
     public void swapBoxes(final Game game) {
