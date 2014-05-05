@@ -25,16 +25,10 @@ public class Game {
         prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
     }
 
-    /**
-     * @return the number of prize boxes in the game
-     */
     final int numberOfBoxes() {
         return prizeBoxes.size();
     }
 
-    /**
-     * @return a count of the number of prize boxes in this game marked as winners.
-     */
     final boolean hasOneWinner() {
         int winners = 0;
         for (PrizeBox prizePrizeBox : prizeBoxes) {
@@ -45,9 +39,6 @@ public class Game {
         return winners == 1;
     }
 
-    /**
-     * Player selects one of the three boxes (at random).
-     */
     public PrizeBox makePlayerSelection() {
         if (prizeBoxes.size() != 3) {
             throw new IllegalStateException("Expected 3 prizes boxes from which the player could make a selection, actually " + prizeBoxes.size());
@@ -60,10 +51,6 @@ public class Game {
         return prizeBox;
     }
 
-
-    /**
-     * @return there should be two remaining boxes, one a winner, one a loser, the host will select the loser.
-     */
     public PrizeBox makeHostSelection() {
         if (prizeBoxes.size() != 2) {
             throw new IllegalStateException("Player has not yet made a selection!");
@@ -80,10 +67,6 @@ public class Game {
         return prizeBox;
     }
 
-    /**
-     * @param prizeBox player's initial selection, this will be returned to the list of boxes.
-     * @return the box that remained after the player's initial selection and the host opened a losing box.
-     */
     public PrizeBox swapBoxes(final PrizeBox prizeBox) {
         if (prizeBoxes.size() > 1) {
             throw new IllegalStateException("Should only be one box remaining, but there's actually " + prizeBoxes.size());
@@ -95,10 +78,7 @@ public class Game {
         return boxToReturn;
     }
 
-    /**
-     * @return the last remaining box, after the player has made a selection and the host has opened a losing box.
-     */
-    PrizeBox getLastBox() {
+    PrizeBox getUnselectedBox() {
         if (prizeBoxes.size() > 1) {
             throw new IllegalStateException("There should be only one remaining box.");
         }

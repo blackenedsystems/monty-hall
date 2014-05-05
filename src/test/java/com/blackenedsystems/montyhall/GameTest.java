@@ -33,8 +33,8 @@ public class GameTest {
 
         assertTrue("Three different boxes",
                 !player.getPrizeBox().equals(host.getOpenedBox()) &&
-                        !player.getPrizeBox().equals(game.getLastBox()) &&
-                        !host.getOpenedBox().equals(game.getLastBox())
+                        !player.getPrizeBox().equals(game.getUnselectedBox()) &&
+                        !host.getOpenedBox().equals(game.getUnselectedBox())
         );
 
         int numberOfWinners = 0;
@@ -44,7 +44,7 @@ public class GameTest {
         if (host.getOpenedBox().isWinner()) {
             numberOfWinners++;
         }
-        if (game.getLastBox().isWinner()) {
+        if (game.getUnselectedBox().isWinner()) {
             numberOfWinners++;
         }
         assertEquals("Number of winning boxes", 1, numberOfWinners);

@@ -17,8 +17,8 @@ public class MontyHallSimulator {
 
     private static final int DEFAULT_NUMBER_OF_ITERATIONS = 10000;
 
-    private SimulationStats statsForChanging;
-    private SimulationStats statsForNotChanging;
+    private SimulationStats playerSwapsBoxStats;
+    private SimulationStats playerKeepsOriginalBoxStats;
 
     public static void main(String[] args) {
         int numberOfIterations = DEFAULT_NUMBER_OF_ITERATIONS;
@@ -34,34 +34,20 @@ public class MontyHallSimulator {
         mhs.runSimulation(numberOfIterations);
     }
 
-    /**
-     * Run a simulation of the Monty Hall Problem, to compare the two use cases, when the player swaps
-     * boxes after the host reveals an empty box, and when he keeps his original selection.
-     *
-     * @param numberOfIterations number of times to run each use case.
-     */
     public void runSimulation(final int numberOfIterations) {
-        statsForNotChanging = simulate(numberOfIterations, false);
-        System.out.println("\n\nPlayer stuck with original choice: " + statsForNotChanging.toString());
+        playerKeepsOriginalBoxStats = simulate(numberOfIterations, false);
+        System.out.println("\n\nPlayer stuck with original choice: " + playerKeepsOriginalBoxStats.toString());
 
-        statsForChanging = simulate(numberOfIterations, true);
-        System.out.println("Player swapped boxes             : " + statsForChanging.toString());
+        playerSwapsBoxStats = simulate(numberOfIterations, true);
+        System.out.println("Player swapped boxes             : " + playerSwapsBoxStats.toString());
 
-        if (statsForChanging.getWinPercentage().compareTo(statsForNotChanging.getWinPercentage()) > 0) {
+        if (playerSwapsBoxStats.getWinPercentage().compareTo(playerKeepsOriginalBoxStats.getWinPercentage()) > 0) {
             System.out.println("\nBest option for player: swap when given the opportunity.\n");
         } else {
             System.out.println("\nBest option for player: do not swap when given the opportunity.\n");
         }
     }
 
-    /**
-     * Run a simulation of a number of games where the player either does or does not change his selection after the host
-     * reveals an empty box.
-     *
-     * @param numberOfGames    number of games to be executed
-     * @param playerChangesBox should the player change his selection after the host opens an empty box?
-     * @return statistics for the simulation
-     */
     public SimulationStats simulate(final int numberOfGames, final boolean playerChangesBox) {
         SimulationStats stats = new SimulationStats();
         for (int i = 0; i < numberOfGames; i++) {
@@ -74,19 +60,10 @@ public class MontyHallSimulator {
         return stats;
     }
 
-    /**
-     * @param playerChangesBox should the player change his selection after the host opens an empty box?
-     * @return whether or not the player wins.
-     */
     public boolean executeGame(final boolean playerChangesBox) {
         return executeGame(new Game(), playerChangesBox);
     }
 
-    /**
-     * @param game             the game to be executed (may include a player selection).
-     * @param playerChangesBox should the player change his selection after the host opens an empty box?
-     * @return whether or not the player wins.
-     */
     boolean executeGame(final Game game, final boolean playerChangesBox) {
         Player player = new Player();
         player.makeSelection(game);
@@ -101,11 +78,11 @@ public class MontyHallSimulator {
         return player.isWinner();
     }
 
-    public SimulationStats getStatsForChanging() {
-        return statsForChanging;
+    public SimulationStats getPlayerSwapsBoxStats() {
+        return playerSwapsBoxStats;
     }
 
-    public SimulationStats getStatsForNotChanging() {
-        return statsForNotChanging;
+    public SimulationStats getPlayerKeepsOriginalBoxStats() {
+        return playerKeepsOriginalBoxStats;
     }
 }
