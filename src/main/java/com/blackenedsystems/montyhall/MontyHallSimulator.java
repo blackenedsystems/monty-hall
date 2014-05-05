@@ -22,7 +22,7 @@ public class MontyHallSimulator {
 
     public static void main(String[] args) {
         int numberOfIterations = DEFAULT_NUMBER_OF_ITERATIONS;
-        if (args.length == 1) {
+        if (args.length > 0) {
             try {
                 numberOfIterations = Integer.parseInt(args[0]);
             } catch (NumberFormatException nfe) {
