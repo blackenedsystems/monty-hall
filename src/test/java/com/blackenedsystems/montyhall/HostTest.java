@@ -2,9 +2,7 @@ package com.blackenedsystems.montyhall;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Alan Tibbetts
@@ -22,10 +20,8 @@ public class HostTest {
         Host host = new Host();
         host.openBox(game);
         assertNotNull("Host's opened box", host.getOpenedBox());
-        assertFalse("Host opened losing box", host.getOpenedBox() == PrizeBox.WINNER);
+        assertTrue("Host opened losing box", host.getOpenedBox() == PrizeBox.LOSER);
         assertEquals("Remaining boxes", 1, game.numberOfBoxes());
-
-        assertFalse("Player's and Host's boxes are different", player.getPrizeBox().equals(host.getOpenedBox()));
     }
 
     @Test(expected = IllegalStateException.class)
