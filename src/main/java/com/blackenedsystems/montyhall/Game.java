@@ -19,7 +19,7 @@ public class Game {
     }
 
     private void initialisePrizeBoxes() {
-        prizeBoxes = new ArrayList<PrizeBox>(3);
+        prizeBoxes = new ArrayList<>(3);
         prizeBoxes.add(new PrizeBox(PrizeBox.WINNER));
         prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
         prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
@@ -50,7 +50,7 @@ public class Game {
      */
     public PrizeBox makePlayerSelection() {
         if (prizeBoxes.size() != 3) {
-            throw new RuntimeException("Expected 3 prizes boxes from which the player could make a selection, actually " + prizeBoxes.size());
+            throw new IllegalStateException("Expected 3 prizes boxes from which the player could make a selection, actually " + prizeBoxes.size());
         }
 
         Random random = new Random();
@@ -66,11 +66,11 @@ public class Game {
      */
     public PrizeBox makeHostSelection() {
         if (prizeBoxes.size() != 2) {
-            throw new RuntimeException("Player has not yet made a selection!");
+            throw new IllegalStateException("Player has not yet made a selection!");
         }
 
         if (prizeBoxes.get(0).isWinner() && prizeBoxes.get(1).isWinner()) {
-            throw new RuntimeException("Both remaining boxes are winners!");
+            throw new IllegalStateException("Both remaining boxes are winners!");
         }
 
         int selection = (prizeBoxes.get(0).isWinner()) ? 1 : 0;
@@ -86,7 +86,7 @@ public class Game {
      */
     public PrizeBox swapBoxes(final PrizeBox prizeBox) {
         if (prizeBoxes.size() > 1) {
-            throw new RuntimeException("Should only be one box remaining, but there's actually " + prizeBoxes.size());
+            throw new IllegalStateException("Should only be one box remaining, but there's actually " + prizeBoxes.size());
         }
 
         prizeBoxes.add(prizeBox);
@@ -100,7 +100,7 @@ public class Game {
      */
     PrizeBox getLastBox() {
         if (prizeBoxes.size() > 1) {
-            throw new RuntimeException("There should be only one remaining box.");
+            throw new IllegalStateException("There should be only one remaining box.");
         }
         return prizeBoxes.get(0);
     }

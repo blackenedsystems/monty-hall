@@ -12,7 +12,7 @@ public class Player {
 
     public void makeSelection(final Game game) {
         if (prizeBox != null) {
-            throw new RuntimeException("Player has already selected a prize box");
+            throw new IllegalStateException("Player has already selected a prize box");
         }
         this.prizeBox = game.makePlayerSelection();
     }

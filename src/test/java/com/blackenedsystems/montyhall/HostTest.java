@@ -28,7 +28,7 @@ public class HostTest {
         assertFalse("Player's and Host's boxes are different", player.getPrizeBox().equals(host.getOpenedBox()));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = IllegalStateException.class)
     public void openBox_playerNotYetSelected() {
         Game game = new Game();
         Host host = new Host();
