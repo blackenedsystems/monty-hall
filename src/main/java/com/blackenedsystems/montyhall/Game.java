@@ -14,7 +14,7 @@ import static com.google.common.base.Preconditions.checkState;
  */
 public class Game {
 
-    private List<PrizeBox> prizeBoxes;
+    protected List<PrizeBox> prizeBoxes;
     private Random random = new Random();
 
     public Game() {
@@ -26,26 +26,6 @@ public class Game {
         prizeBoxes.add(new PrizeBox(PrizeBox.WINNER));
         prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
         prizeBoxes.add(new PrizeBox(PrizeBox.LOSER));
-    }
-
-    /**
-     * @return the number of prize boxes in the game
-     */
-    final int numberOfBoxes() {
-        return prizeBoxes.size();
-    }
-
-    /**
-     * @return a count of the number of prize boxes in this game marked as winners.
-     */
-    final boolean hasOneWinner() {
-        int winners = 0;
-        for (PrizeBox prizePrizeBox : prizeBoxes) {
-            if (prizePrizeBox.isWinner()) {
-                winners++;
-            }
-        }
-        return winners == 1;
     }
 
     /**
@@ -89,12 +69,5 @@ public class Game {
         return boxToReturn;
     }
 
-    /**
-     * @return the last remaining box, after the player has made a selection and the host has opened a losing box.
-     */
-    PrizeBox getUnselectedBox() {
-        checkState(prizeBoxes.size() == 1, "There should be only one remaining box.");
 
-        return prizeBoxes.get(0);
-    }
 }

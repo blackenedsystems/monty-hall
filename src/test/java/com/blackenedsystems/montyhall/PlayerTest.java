@@ -2,9 +2,7 @@ package com.blackenedsystems.montyhall;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Alan Tibbetts
@@ -14,7 +12,7 @@ public class PlayerTest {
 
     @Test
     public void selectBox_ok() {
-        Game game = new Game();
+        TestableGame game = new TestableGame();
         Player player = new Player();
         player.makeSelection(game);
         assertNotNull("Player has selected box", player.getPrizeBox());

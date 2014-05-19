@@ -12,7 +12,7 @@ public class GameTest {
 
     @Test
     public void gameInitialisedOk() {
-        Game game = new Game();
+        TestableGame game = new TestableGame();
         assertNotNull("Game", game);
         assertEquals("Number of Boxes", 3, game.numberOfBoxes());
         assertTrue("One and only one winner", game.hasOneWinner());
@@ -20,7 +20,7 @@ public class GameTest {
 
     @Test
     public void onlyOneWinner() {
-        Game game = new Game();
+        TestableGame game = new TestableGame();
         assertEquals("Initial number of boxes", 3, game.numberOfBoxes());
 
         Player player = new Player();
@@ -49,4 +49,5 @@ public class GameTest {
         }
         assertEquals("Number of winning boxes", 1, numberOfWinners);
     }
+
 }

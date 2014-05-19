@@ -12,7 +12,6 @@ public class SimulationStats {
 
     private int wins = 0;
     private int losses = 0;
-    private BigDecimal winPercentage;
 
     public int getWins() {
         return wins;
@@ -31,12 +30,8 @@ public class SimulationStats {
     }
 
     public BigDecimal getWinPercentage() {
-        if (winPercentage == null) {
-            BigDecimal total = new BigDecimal(wins + losses);
-            winPercentage = new BigDecimal(wins).divide(total).multiply(new BigDecimal(100));
-        }
-
-        return winPercentage;
+        BigDecimal total = new BigDecimal(wins + losses);
+        return new BigDecimal(wins).divide(total).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     @Override
